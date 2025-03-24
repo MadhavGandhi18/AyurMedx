@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Test - AyurGenie</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #F0F9FF 0%, #E6F3FF 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 80px;
+        }
+
+        .camera-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #F8FBFF;  /* Lighter shade of blue */
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .camera-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .camera-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .camera-header p {
+            color: var(--light-text);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .camera-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .camera-card {
+            background: linear-gradient(135deg, #0077b6, #00b4d8);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .camera-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 119, 182, 0.2);
+        }
+
+        .camera-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .camera-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .camera-card h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .camera-card p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .camera-preview {
+            width: 100%;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            display: none;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .camera-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .camera-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .camera-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .capture-btn {
+            background: white;
+            color: #0077b6;
+        }
+
+        .retake-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            display: none;
+        }
+
+        .upload-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            display: none;
+        }
+
+        .camera-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .camera-btn i {
+            font-size: 1.2rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .camera-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            .camera-header h1 {
+                font-size: 2rem;
+            }
+
+            .camera-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>AyurDiagnose</h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#diagnosis">Diagnosis</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#contact">Contact</a>
+                <a href="login.html" class="login-btn">Login</a>
+            </div>
+            <div class="menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="camera-container">
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Home
+            </a>
+
+            <div class="camera-header">
+                <h1>Take Your Test</h1>
+                <p>Please take clear photos of your tongue and eyes in good lighting conditions. This will help us provide accurate Ayurvedic analysis.</p>
+            </div>
+
+            <div class="camera-grid">
+                <!-- Tongue Camera Card -->
+                <div class="camera-card">
+                    <div class="camera-icon">
+                        <i class="fas fa-tongue"></i>
+                    </div>
+                    <h3>Tongue Photo</h3>
+                    <p>Take a clear photo of your tongue. Make sure your tongue is fully extended and well-lit.</p>
+                    <div class="camera-preview" id="tonguePreview">
+                        <img src="https://www.ayurveda-elements.com/wp-content/uploads/2019/03/tongue-diagnosis-pink.jpg" alt="Tongue Preview" style="display: block;">
+                    </div>
+                    <div class="camera-buttons">
+                        <a href="take-photo.html?type=tongue" class="camera-btn capture-btn">
+                            <i class="fas fa-camera"></i>
+                            Take Photo
+                        </a>
+                        <button class="camera-btn retake-btn" onclick="retakePhoto('tongue')">
+                            <i class="fas fa-redo"></i>
+                            Retake
+                        </button>
+                        <button class="camera-btn upload-btn" onclick="uploadPhoto('tongue')">
+                            <i class="fas fa-upload"></i>
+                            Upload
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Eye Camera Card -->
+                <div class="camera-card">
+                    <div class="camera-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>Eye Photo</h3>
+                    <p>Take a clear photo of your eyes. Ensure good lighting and keep your eyes open naturally.</p>
+                    <div class="camera-preview" id="eyePreview">
+                        <img src="https://www.ayurvedaelements.com/wp-content/uploads/2020/04/iridology-eye-reading.jpg" alt="Eye Preview" style="display: block;">
+                    </div>
+                    <div class="camera-buttons">
+                        <a href="take-photo.html?type=eye" class="camera-btn capture-btn">
+                            <i class="fas fa-camera"></i>
+                            Take Photo
+                        </a>
+                        <button class="camera-btn retake-btn" onclick="retakePhoto('eye')">
+                            <i class="fas fa-redo"></i>
+                            Retake
+                        </button>
+                        <button class="camera-btn upload-btn" onclick="uploadPhoto('eye')">
+                            <i class="fas fa-upload"></i>
+                            Upload
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentCamera = null;
+        let currentStream = null;
+
+        async function startCamera(type) {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                currentStream = stream;
+                currentCamera = type;
+                
+                const preview = document.getElementById(`${type}Preview`);
+                const img = preview.querySelector('img');
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                video.play();
+                
+                preview.style.display = 'block';
+                preview.innerHTML = '';
+                preview.appendChild(video);
+                
+                // Show capture button
+                const captureBtn = preview.parentElement.querySelector('.capture-btn');
+                const retakeBtn = preview.parentElement.querySelector('.retake-btn');
+                const uploadBtn = preview.parentElement.querySelector('.upload-btn');
+                
+                captureBtn.style.display = 'none';
+                retakeBtn.style.display = 'flex';
+                uploadBtn.style.display = 'flex';
+            } catch (err) {
+                console.error('Error accessing camera:', err);
+                alert('Error accessing camera. Please make sure you have granted camera permissions.');
+            }
+        }
+
+        function retakePhoto(type) {
+            if (currentStream) {
+                currentStream.getTracks().forEach(track => track.stop());
+                currentStream = null;
+            }
+            
+            const preview = document.getElementById(`${type}Preview`);
+            preview.style.display = 'none';
+            preview.innerHTML = '';
+            
+            const captureBtn = preview.parentElement.querySelector('.capture-btn');
+            const retakeBtn = preview.parentElement.querySelector('.retake-btn');
+            const uploadBtn = preview.parentElement.querySelector('.upload-btn');
+            
+            captureBtn.style.display = 'flex';
+            retakeBtn.style.display = 'none';
+            uploadBtn.style.display = 'none';
+        }
+
+        function uploadPhoto(type) {
+            // Here you would implement the actual upload functionality
+            alert('Photo upload functionality will be implemented here.');
+        }
+
+        // Clean up camera stream when leaving the page
+        window.addEventListener('beforeunload', () => {
+            if (currentStream) {
+                currentStream.getTracks().forEach(track => track.stop());
+            }
+        });
+    </script>
+</body>
+</html> 

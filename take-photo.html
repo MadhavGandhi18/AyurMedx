@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Photo - AyurDiagnose</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #F0F9FF 0%, #E6F3FF 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 80px;
+        }
+
+        .photo-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #F8FBFF;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .photo-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .photo-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .photo-header p {
+            color: var(--light-text);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .instructions {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .instructions h2 {
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .instructions-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .instructions-list li {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+            color: var(--light-text);
+        }
+
+        .instructions-list li::before {
+            content: '•';
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .camera-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .camera-preview {
+            width: 100%;
+            height: 400px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            display: none;
+        }
+
+        .camera-preview video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .camera-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .camera-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .capture-btn {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .retake-btn {
+            background: #f5f5f5;
+            color: var(--text-color);
+            display: none;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .photo-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            .photo-header h1 {
+                font-size: 2rem;
+            }
+
+            .camera-preview {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>AyurDiagnose</h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#diagnosis">Diagnosis</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#contact">Contact</a>
+                <a href="login.html" class="login-btn">Login</a>
+            </div>
+            <div class="menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="photo-container">
+            <a href="camera.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Camera Selection
+            </a>
+
+            <div class="photo-header">
+                <h1>Take Your <span id="photoType">Tongue</span> Photo</h1>
+                <p>Follow the instructions below to capture a clear photo for accurate analysis.</p>
+            </div>
+
+            <div class="instructions">
+                <h2>Instructions</h2>
+                <ul class="instructions-list">
+                    <li>Ensure you are in a well-lit area with natural light if possible</li>
+                    <li>Position yourself in front of a plain background</li>
+                    <li>For tongue photos: Extend your tongue fully and keep it relaxed</li>
+                    <li>For eye photos: Keep your eyes open naturally and look straight ahead</li>
+                    <li>Hold steady and avoid any movement while capturing</li>
+                    <li>Make sure the entire area is visible in the frame</li>
+                </ul>
+            </div>
+
+            <div class="camera-section">
+                <div class="camera-preview" id="cameraPreview">
+                    <video autoplay playsinline></video>
+                </div>
+                <div class="camera-buttons">
+                    <button class="camera-btn capture-btn" onclick="startCamera()">
+                        <i class="fas fa-camera"></i>
+                        Take Photo
+                    </button>
+                    <button class="camera-btn retake-btn" onclick="retakePhoto()">
+                        <i class="fas fa-redo"></i>
+                        Retake
+                    </button>
+                    <button class="camera-btn capture-btn" onclick="capturePhoto()" style="display: none;">
+                        <i class="fas fa-check"></i>
+                        Use Photo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let stream = null;
+        let capturedImage = null;
+        const photoType = new URLSearchParams(window.location.search).get('type') || 'tongue';
+        
+        // Update photo type in header
+        document.getElementById('photoType').textContent = photoType.charAt(0).toUpperCase() + photoType.slice(1);
+
+        async function startCamera() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const video = document.querySelector('video');
+                video.srcObject = stream;
+                video.play();
+                
+                document.getElementById('cameraPreview').style.display = 'block';
+                
+                const captureBtn = document.querySelector('.capture-btn');
+                const retakeBtn = document.querySelector('.retake-btn');
+                const usePhotoBtn = document.querySelector('.camera-btn:last-child');
+                
+                captureBtn.style.display = 'none';
+                retakeBtn.style.display = 'flex';
+                usePhotoBtn.style.display = 'none';
+            } catch (err) {
+                console.error('Error accessing camera:', err);
+                alert('Error accessing camera. Please make sure you have granted camera permissions.');
+            }
+        }
+
+        function capturePhoto() {
+            const video = document.querySelector('video');
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+            capturedImage = canvas.toDataURL('image/jpeg');
+            
+            // Display captured image
+            const preview = document.getElementById('cameraPreview');
+            preview.innerHTML = `<img src="${capturedImage}" style="width: 100%; height: 100%; object-fit: cover;">`;
+            
+            // Show retake and use photo buttons
+            const retakeBtn = document.querySelector('.retake-btn');
+            const usePhotoBtn = document.querySelector('.camera-btn:last-child');
+            retakeBtn.style.display = 'flex';
+            usePhotoBtn.style.display = 'flex';
+        }
+
+        function retakePhoto() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            
+            const preview = document.getElementById('cameraPreview');
+            preview.style.display = 'none';
+            preview.innerHTML = '<video autoplay playsinline></video>';
+            
+            const captureBtn = document.querySelector('.capture-btn');
+            const retakeBtn = document.querySelector('.retake-btn');
+            const usePhotoBtn = document.querySelector('.camera-btn:last-child');
+            
+            captureBtn.style.display = 'flex';
+            retakeBtn.style.display = 'none';
+            usePhotoBtn.style.display = 'none';
+        }
+
+        // Clean up camera stream when leaving the page
+        window.addEventListener('beforeunload', () => {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+        });
+    </script>
+</body>
+</html> 
